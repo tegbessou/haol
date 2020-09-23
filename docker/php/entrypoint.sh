@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-uid=$(stat -c %u /home)
-gid=$(stat -c %g /home)
+uid=$(stat -c %u /home/app)
+gid=$(stat -c %g /home/app)
 
 if [ $uid == 0 ] && [ $gid == 0 ]; then
     chmod 777 -Rf /home
