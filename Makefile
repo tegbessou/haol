@@ -1,5 +1,7 @@
 DOCKER-COMPOSE = docker-compose
 EXEC_PHP = docker-compose exec -u www-data php
+EXEC_DB = docker-compose exec db sh -c
+EXEC_SYMFONY = docker-compose exec -u www-data php bin/console
 COMPOSER = $(EXEC_PHP) composer
 
 help: ## Outputs this help screen
@@ -20,7 +22,7 @@ start: up ##Start project
 
 stop: down ##Stop project
 
-reset: stop start ##Reset the project
+reset: stop start db-load ##Reset the project
 
 composer-install: composer.lock ##Install composer
 	$(COMPOSER) install
@@ -28,5 +30,32 @@ composer-install: composer.lock ##Install composer
 composer-update: composer.json ##Update composer
 	$(COMPOSER) update
 
-cache-clear: ##Clear symfony cache
-	$(EXEC_PHP) bin/console c:c
+cc: ##Clear symfony cache
+	$(EXEC_SYMFONY) c:c
+
+wait-db:
+	@$(EXEC_PHP) php -r "set_time_limit(60);for(;;){if(@fsockopen('db',3306))die;echo \"Waiting for DB\n\";sleep(1);}"
+
+##Database
+db-load: wait-db db-fixtures #Load database from dump
+
+db-reload: wait-db db-drop db-create db-migrate #Recreate database structure
+
+db-create: #Create database
+	$(EXEC_SYMFONY) doctrine:database:create
+
+db-drop: #Drop database
+	$(EXEC_SYMFONY) doctrine:database:drop --force --if-exists
+
+db-diff: #Generate migration by diff
+	$(EXEC_SYMFONY) doctrine:migration:diff
+
+db-migrate: #Load migration
+	$(EXEC_SYMFONY) doctrine:migration:migrate --no-interaction
+
+db-reload-fixtures: db-reload #Reload fixtures
+	$(EXEC_SYMFONY) hautelook:fixtures:load --no-interaction
+	$(EXEC_DB) "mysqldump --user=root --password=root --databases haol > /home/app/docker/db/dump/haol.sql"
+
+db-fixtures: #Load fixtures from dump
+	$(EXEC_DB) "mysql --user=root --password=root < /home/app/docker/db/dump/haol.sql"
