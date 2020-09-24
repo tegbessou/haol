@@ -1,7 +1,7 @@
 DOCKER-COMPOSE = docker-compose
 EXEC_PHP = docker-compose exec -u www-data php
-EXEC_DB = docker-compose exec db sh -c
 EXEC_SYMFONY = docker-compose exec -u www-data php bin/console
+EXEC_DB = docker-compose exec db sh -c
 COMPOSER = $(EXEC_PHP) composer
 
 help: ## Outputs this help screen
@@ -59,3 +59,7 @@ db-reload-fixtures: db-reload #Reload fixtures
 
 db-fixtures: #Load fixtures from dump
 	$(EXEC_DB) "mysql --user=root --password=root < /home/app/docker/db/dump/haol.sql"
+
+##Behat
+behat: db-load
+	$(EXEC_PHP) vendor/bin/behat

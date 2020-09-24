@@ -11,6 +11,10 @@ RUN apk update \
 RUN docker-php-ext-install opcache pdo_mysql mysqli
 RUN docker-php-ext-enable opcache
 
+RUN apk add --update icu-dev \
+	&& docker-php-ext-configure intl \
+	&& docker-php-ext-install intl
+
 # Install composer
 RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
 
