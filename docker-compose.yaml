@@ -21,6 +21,8 @@ services:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
+    volumes:
+      - .:/home/app
     environment:
       MYSQL_ROOT_PASSWORD: root
 
