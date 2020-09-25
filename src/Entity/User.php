@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class User
 {
@@ -14,12 +14,12 @@ class User
      * @ORM\GeneratedValue
      * @ORM\Column(name="id", type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(name="username", type="string")
      */
-    private $username;
+    private string $username;
 
     public function getId(): int
     {
@@ -31,11 +31,10 @@ class User
         return $this->username;
     }
 
-    public function setUsername($username): self
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
         return $this;
     }
-
 }
