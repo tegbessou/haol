@@ -31,3 +31,8 @@ services:
     restart: always
     ports:
     - 8080:8080
+
+  quality-assurance:
+    build: docker/quality-assurance
+    volumes:
+      - .:/project
