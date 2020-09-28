@@ -10,10 +10,13 @@
         This ruleset contains a collection of rules.
     </description>
     <exclude-pattern>src/Kernel.php</exclude-pattern>
+    <exclude-pattern>src/Security/LoginFormAuthenticator.php</exclude-pattern>
 
     <rule ref="rulesets/controversial.xml" />
 
-    <rule ref="rulesets/codesize.xml" />
+    <rule ref="rulesets/codesize.xml">
+        <exclude name="CouplingBetweenObjects" />
+    </rule>
 
     <rule ref="rulesets/unusedcode.xml" />
 
@@ -22,7 +25,9 @@
     <rule ref="rulesets/unusedcode.xml/UnusedPrivateMethod"><priority>1</priority></rule>
 
 
-    <rule ref="rulesets/design.xml" />
+    <rule ref="rulesets/design.xml">
+        <exclude name="CouplingBetweenObjects" />
+    </rule>
 
     <rule ref="rulesets/naming.xml">
         <exclude name="LongVariable" />

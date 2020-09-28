@@ -1,3 +1,10 @@
 App\Entity\User:
-  user_{1..10}:
-    username: 'Pedro<current()>'
+  user_1:
+    email: 'pedro@haol.com'
+    password: 'pedro'
+    roles: ['ROLE_USER']
+
+  user_2:
+    email: 'admin@haol.com'
+    password: 'pedro'
+    roles: ['ROLE_ADMIN']

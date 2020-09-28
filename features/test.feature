@@ -5,7 +5,7 @@ Feature:
 
     @read-only
     Scenario: List ten users
-        When I go to "/"
+        When I go to "/test"
         Then the response status code should be 200
         And the response should contain "Pedro1"
         And the response should not contain "PedroManual"

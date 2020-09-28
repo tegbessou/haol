@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TestController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/test")
      */
     public function listAction(): Response
     {
@@ -26,7 +26,7 @@ class TestController extends AbstractController
     public function create(): Response
     {
         $user = (new User())
-            ->setUsername('PedroManual');
+            ->setEmail('PedroManual');
         $this->getDoctrine()->getManager()
             ->persist($user);
         $this->getDoctrine()->getManager()->flush();
