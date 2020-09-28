@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -17,24 +18,73 @@ class User
     private int $id;
 
     /**
-     * @ORM\Column(name="username", type="string")
+     * @ORM\Column(name="email", type="string")
      */
-    private string $username;
+    private string $email;
+
+    /**
+     * @ORM\Column(name="roles", type="array")
+     */
+    private array $roles;
+
+    /**
+     * @ORM\Column(name="password")
+     */
+    private string $password;
 
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUsername(): string
+    public function getEmail(): string
     {
-        return $this->username;
+        return $this->email;
     }
 
-    public function setUsername(string $username): self
+    public function setEmail(string $email): self
     {
-        $this->username = $username;
+        $this->email = $email;
 
         return $this;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }

@@ -66,6 +66,7 @@ behat: db-load ##Launch behat
 	$(EXEC_PHP) vendor/bin/behat
 
 ##Quality assurance
+ci: security-checker phpmd composer-unused yaml-linter phpstan cs
 security-checker: ##Security check on dependencies
 	$(QUALITY_ASSURANCE) sh -c "security-checker security:check"
 
